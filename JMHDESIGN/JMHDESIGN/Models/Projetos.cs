@@ -12,6 +12,7 @@ namespace JMHDESIGN.Models {
         {
 
             ListaRelacionamento = new HashSet<ProjetosFuncionarios>();
+          
         }
 
     [Key]
@@ -32,13 +33,16 @@ namespace JMHDESIGN.Models {
 
     public string Fotografia { get; set; }
 
+    public string Ficheiro { get; set; }
 
 
     [ForeignKey("Cliente")]
-    public int ClientesFK { get; set; } 
+    public int ClienteFK { get; set; }
     public Clientes Cliente { get; set; }
 
-     public ICollection<ProjetosFuncionarios> ListaRelacionamento { get; set; }
+
+    public ICollection<ProjetosFuncionarios> ListaRelacionamento { get; set; }
+    
 
     }
 }

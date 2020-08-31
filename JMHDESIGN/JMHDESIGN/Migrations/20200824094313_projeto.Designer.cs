@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace JMHDESIGN.Data.Migrations
+namespace JMHDESIGN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200814093626_Tabela")]
-    partial class Tabela
+    [Migration("20200824094313_projeto")]
+    partial class projeto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,10 +36,13 @@ namespace JMHDESIGN.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Morada")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NIF")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -101,11 +104,15 @@ namespace JMHDESIGN.Data.Migrations
                     b.Property<int>("Contacto")
                         .HasColumnType("int");
 
-                    b.Property<int>("Morada")
-                        .HasColumnType("int");
+                    b.Property<string>("Morada")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNameId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IDfunc");
@@ -124,13 +131,16 @@ namespace JMHDESIGN.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClientesFK")
+                    b.Property<int?>("ClientesIDcliente")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ficheiro")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Fotografia")
@@ -142,9 +152,34 @@ namespace JMHDESIGN.Data.Migrations
 
                     b.HasKey("IDproj");
 
-                    b.HasIndex("ClientesFK");
+                    b.HasIndex("ClientesIDcliente");
 
                     b.ToTable("Funcionarios");
+                });
+
+            modelBuilder.Entity("JMHDESIGN.Models.ProjetosClientes", b =>
+                {
+                    b.Property<int>("IDprojcliente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IDclienteFK")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IDproj1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IDprojFK")
+                        .HasColumnType("int");
+
+                    b.HasKey("IDprojcliente");
+
+                    b.HasIndex("IDclienteFK");
+
+                    b.HasIndex("IDproj1");
+
+                    b.ToTable("ProjetosClientes");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.ProjetosFuncionarios", b =>
@@ -194,6 +229,22 @@ namespace JMHDESIGN.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c",
+                            ConcurrencyStamp = "877404f0-b1b2-4306-9911-08c95a29940d",
+                            Name = "cliente",
+                            NormalizedName = "cliente"
+                        },
+                        new
+                        {
+                            Id = "f",
+                            ConcurrencyStamp = "3dd4cbf6-99f0-4316-8ae3-7f9b7681944d",
+                            Name = "funcionario",
+                            NormalizedName = "funcionario"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -380,11 +431,22 @@ namespace JMHDESIGN.Data.Migrations
 
             modelBuilder.Entity("JMHDESIGN.Models.Projetos", b =>
                 {
-                    b.HasOne("JMHDESIGN.Models.Clientes", "Cliente")
+                    b.HasOne("JMHDESIGN.Models.Clientes", null)
                         .WithMany("ListaProjetos")
-                        .HasForeignKey("ClientesFK")
+                        .HasForeignKey("ClientesIDcliente");
+                });
+
+            modelBuilder.Entity("JMHDESIGN.Models.ProjetosClientes", b =>
+                {
+                    b.HasOne("JMHDESIGN.Models.Clientes", "IDcliente")
+                        .WithMany()
+                        .HasForeignKey("IDclienteFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("JMHDESIGN.Models.Projetos", "IDproj")
+                        .WithMany("ListaClientes")
+                        .HasForeignKey("IDproj1");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.ProjetosFuncionarios", b =>
