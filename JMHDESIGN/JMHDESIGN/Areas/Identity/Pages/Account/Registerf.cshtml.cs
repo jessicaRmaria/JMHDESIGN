@@ -19,7 +19,8 @@ using Microsoft.Extensions.Logging;
 
 namespace JMHDESIGN.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    // [AllowAnonymous]
+    [Authorize(Roles = "funcionario")]
     public class RegisterfModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -56,14 +57,14 @@ namespace JMHDESIGN.Areas.Identity.Pages.Account
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
+            // [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            //[DataType(DataType.Password)]
+            //[Display(Name = "Confirm password")]
+            //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            //public string ConfirmPassword { get; set; }
 
             public Funcionarios Funcionario { get; set; }
         }
@@ -77,7 +78,7 @@ namespace JMHDESIGN.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-          
+
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
@@ -104,27 +105,22 @@ namespace JMHDESIGN.Areas.Identity.Pages.Account
                         await _context.SaveChangesAsync();
 
 
-                    }catch(Exception)
+                    }
+                    catch (Exception)
                     {
                         await _userManager.RemoveFromRoleAsync(user, "funcionario");
                         await _userManager.RemoveClaimAsync(user, claim);
                         await _userManager.DeleteAsync(user);
 
+                        // falta aqui uma msg de erro para o utilizador
+
                         return RedirectToAction("Index", "Home");
                     }
 
-                   
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    // se cheguei aqui é pq o trabalho que devia ser feito foi feito.
+                    return LocalRedirect(returnUrl);
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

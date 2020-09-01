@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JMHDESIGN.Data;
 using JMHDESIGN.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JMHDESIGN.Controllers
 {
+    [Authorize(Roles = "funcionario")]
     public class FuncionariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,7 +24,7 @@ namespace JMHDESIGN.Controllers
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projetos.ToListAsync());
+            return View(await _context.Funcionarios.ToListAsync());
         }
 
         // GET: Funcionarios/Details/5
@@ -33,37 +35,37 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Projetos
+            var funcionario = await _context.Funcionarios
                 .FirstOrDefaultAsync(m => m.IDfunc == id);
-            if (funcionarios == null)
+            if (funcionario == null)
             {
                 return NotFound();
             }
 
-            return View(funcionarios);
+            return View(funcionario);
         }
 
         // GET: Funcionarios/Create
         public IActionResult Create()
         {
-            return View();
+            return Redirect("~/Identity/Account/Registerf");
         }
 
-        // POST: Funcionarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDfunc,Nome,Cargo,Contacto,Morada,CodPostal,UserNameId")] Funcionarios funcionarios)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(funcionarios);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(funcionarios);
-        }
+        //// POST: Funcionarios/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("IDfunc,Nome,Cargo,Contacto,Morada,CodPostal,UserNameId")] Funcionarios funcionarios)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(funcionarios);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(funcionarios);
+        //}
 
         // GET: Funcionarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -73,7 +75,7 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Projetos.FindAsync(id);
+            var funcionarios = await _context.Funcionarios.FindAsync(id);
             if (funcionarios == null)
             {
                 return NotFound();
@@ -124,7 +126,7 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var funcionarios = await _context.Projetos
+            var funcionarios = await _context.Funcionarios
                 .FirstOrDefaultAsync(m => m.IDfunc == id);
             if (funcionarios == null)
             {
@@ -139,15 +141,15 @@ namespace JMHDESIGN.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var funcionarios = await _context.Projetos.FindAsync(id);
-            _context.Projetos.Remove(funcionarios);
+            var funcionarios = await _context.Funcionarios.FindAsync(id);
+            _context.Funcionarios.Remove(funcionarios);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FuncionariosExists(int id)
         {
-            return _context.Projetos.Any(e => e.IDfunc == id);
+            return _context.Funcionarios.Any(e => e.IDfunc == id);
         }
     }
 }

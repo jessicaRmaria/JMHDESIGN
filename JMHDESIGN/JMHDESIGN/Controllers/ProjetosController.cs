@@ -36,7 +36,7 @@ namespace JMHDESIGN.Controllers
         // GET: Projetos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Funcionarios.ToListAsync());
+            return View(await _context.Projetos.Include(p => p.Cliente).ToListAsync());
         }
 
         // GET: Projetos/Details/5
@@ -47,14 +47,15 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var projetos = await _context.Funcionarios
-                .FirstOrDefaultAsync(m => m.IDproj == id);
-            if (projetos == null)
+            var projeto = await _context.Projetos
+                                         .Include(p => p.Cliente)
+                                         .FirstOrDefaultAsync(m => m.IDproj == id);
+            if (projeto == null)
             {
                 return NotFound();
             }
 
-            return View(projetos);
+            return View(projeto);
         }
 
         // GET: Projetos/Create
@@ -62,6 +63,7 @@ namespace JMHDESIGN.Controllers
         [Authorize(Roles = "funcionario")]
         public IActionResult Create()
         {
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "CodPostal");
             return View();
         }
 
@@ -71,53 +73,100 @@ namespace JMHDESIGN.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "funcionario")]
-        public async Task<IActionResult> Create([Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro")] Projetos projetos, IFormFile imagem, IFormFile ficheiro)
+        public async Task<IActionResult> Create([Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro,ClienteFK")] Projetos projeto, IFormFile imagem, IFormFile documento)
         {
-            var criador = _context.Projetos.FirstOrDefault(f => f.UserNameId == _Usermanager.GetUserId(User));
+            //  var criador = _context.Projetos.FirstOrDefault(f => f. == _Usermanager.GetUserId(User));
+
             string caminhoImagem = "";
-            string caminhoFicheiro = "";
             bool existeImagem = false;
+            string caminhoFicheiro = "";
+            bool existeFicheiro = false;
+            // cria o um novo id unico para nome do ficheiro e da fotografia
+            Guid g;
+            g = Guid.NewGuid();
+
+            // processar a FOTOGRAFIA
             if (imagem == null)
             {
-                projetos.Fotografia = "default.jpg";
-
-            } else
+                projeto.Fotografia = "default.jpg";
+            }
+            else
             {
                 if (imagem.ContentType == "image/jpeg" || imagem.ContentType == "image/png")
                 {
-                    // cria o um novo id unico para nome da imagem
-                    Guid g;
-                    g = Guid.NewGuid();
-
                     string extensao = Path.GetExtension(imagem.FileName).ToLower();
                     string nome = g.ToString() + extensao;
 
                     caminhoImagem = Path.Combine(_caminho.WebRootPath, "Imagens\\", nome);
-                    projetos.Fotografia = nome;
-
-                    extensao = Path.GetExtension(ficheiro.FileName).ToLower();
-                    nome = g.ToString() + extensao;
-
-                    caminhoFicheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", nome);
-                    projetos.Ficheiro = nome;
+                    projeto.Fotografia = nome;
 
                     existeImagem = true;
                 }
                 else
                 {
-                    projetos.Fotografia = "default.jpg";
+                    projeto.Fotografia = "default.jpg";
                 }
-
             }
 
-            if (ModelState.IsValid)
+            // Processar o FICHEIRO
+            if (documento == null)
             {
-                _context.Add(projetos);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                projeto.Ficheiro = "";
             }
-            return View(projetos);
+            else
+            {
+                if (documento.ContentType == "application/pdf") // pq só se pretende PDFs
+                {
+                    string extensao = Path.GetExtension(documento.FileName).ToLower();
+                    string nome = g.ToString() + extensao;
+
+                    caminhoFicheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", nome);
+                    projeto.Ficheiro = nome;
+
+                    existeFicheiro = true;
+                }
+                else
+                {
+                    projeto.Ficheiro = "";
+                }
+            }
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(projeto);
+                    await _context.SaveChangesAsync();
+                    // guardar os ficheiros (imagem + ficheiro)
+                    if (existeFicheiro)
+                    {
+                        using var stream = new FileStream(caminhoFicheiro, FileMode.Create);
+                        await documento.CopyToAsync(stream);
+                    }
+                    if (existeImagem)
+                    {
+                        using var stream = new FileStream(caminhoImagem, FileMode.Create);
+                        await imagem.CopyToAsync(stream);
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception)
+            {
+                // falta decidir o q deve ser feito se existir um erro...
+                throw;
+            }
+
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "CodPostal", projeto.ClienteFK);
+            return View(projeto);
         }
+
+
+
+
+
+
+
 
         // GET: Projetos/Edit/5
 
@@ -129,13 +178,18 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var projetos = await _context.Funcionarios.FindAsync(id);
+            var projetos = await _context.Projetos.Include(p=>p.Cliente)
+                                         .FirstOrDefaultAsync (p=>p.IDproj==id);
             if (projetos == null)
             {
                 return NotFound();
             }
             return View(projetos);
         }
+
+
+
+
 
         // POST: Projetos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -144,23 +198,30 @@ namespace JMHDESIGN.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "funcionario")]
 
-        public async Task<IActionResult> Edit(int id, [Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro")] Projetos projetos)
+        public async Task<IActionResult> Edit(int id, [Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro,ClienteFK")] Projetos projeto)
         {
-            if (id != projetos.IDproj)
+            if (id != projeto.IDproj)
             {
                 return NotFound();
             }
+
+
+            // não esquecer:
+            // se existe uma nova imagem, troca-se a imagem 'velha' pela 'nova'
+            // o mesmo para o documento
+
+
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(projetos);
+                    _context.Update(projeto);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjetosExists(projetos.IDproj))
+                    if (!ProjetosExists(projeto.IDproj))
                     {
                         return NotFound();
                     }
@@ -171,7 +232,7 @@ namespace JMHDESIGN.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(projetos);
+            return View(projeto);
         }
 
         // GET: Projetos/Delete/5
@@ -184,8 +245,8 @@ namespace JMHDESIGN.Controllers
                 return NotFound();
             }
 
-            var projetos = await _context.Funcionarios
-                .FirstOrDefaultAsync(m => m.IDproj == id);
+            var projetos = await _context.Projetos
+                .FirstOrDefaultAsync(m => m.IDproj  == id);
             if (projetos == null)
             {
                 return NotFound();
@@ -200,15 +261,15 @@ namespace JMHDESIGN.Controllers
         [Authorize(Roles = "funcionario")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var projetos = await _context.Funcionarios.FindAsync(id);
-            _context.Funcionarios.Remove(projetos);
+            var projetos = await _context.Projetos.FindAsync(id);
+            _context.Projetos.Remove(projetos);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProjetosExists(int id)
         {
-            return _context.Funcionarios.Any(e => e.IDproj == id);
+            return _context.Projetos.Any(e => e.IDproj == id);
         }
     }
 }

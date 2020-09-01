@@ -25,9 +25,9 @@ namespace JMHDESIGN.Data
 
         // adicionar as 'tabelas' à BD
         public DbSet<Clientes> Clientes { get; set; }
-        public DbSet<Projetos> Funcionarios { get; set; }
+        public DbSet<Projetos> Projetos { get; set; }
         public DbSet<Formularios> Formularios { get; set; }
-        public DbSet<Funcionarios> Projetos { get; set; }
+        public DbSet<Funcionarios> Funcionarios { get; set; }
         public DbSet<ProjetosFuncionarios> ProjetosFuncionarios { get; set; }
 
 

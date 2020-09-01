@@ -111,6 +111,8 @@ namespace JMHDESIGN.Areas.Identity.Pages.Account
                         await _userManager.RemoveClaimAsync(user, claim);
                         await _userManager.DeleteAsync(user);
 
+                        // falta aqui enviar uma mensagem de erro ao utilizador
+                        
                         return RedirectToAction("Index", "Home");
                     }
 
