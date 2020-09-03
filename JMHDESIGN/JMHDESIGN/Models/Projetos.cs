@@ -18,16 +18,23 @@ namespace JMHDESIGN.Models {
     [Key]
     public int IDproj { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+    [StringLength(70, ErrorMessage = "Não pode ter mais do que {1} caráteres.")]
+    [RegularExpression("[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+(( | d[ao](s)? | e |-|'| d')[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+){1,5}",
+                            ErrorMessage = "Deve escrever 2 a 6 nomes, começando por Maiúsculas, seguido de  minúsculas.")]
+    [Display(Name = "Nome")]
     public string Nome { get; set; }
 
+    [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+    [Display(Name = "Descrição")]
     public string Descricao { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+    [Display(Name = "Categoria")]
     public string Categoria { get; set; }
 
     /// <summary>
-    /// Data de criação do projeto
+    /// Data de entrega do projeto
     /// </summary>
     public DateTime Data { get; set; }
 

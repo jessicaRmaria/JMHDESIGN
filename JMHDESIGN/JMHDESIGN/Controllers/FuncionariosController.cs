@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace JMHDESIGN.Controllers
 {
-    [Authorize(Roles = "funcionario")]
+    [AllowAnonymous]
     public class FuncionariosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,6 +21,7 @@ namespace JMHDESIGN.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "funcionario")]
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {

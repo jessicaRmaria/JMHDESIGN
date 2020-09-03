@@ -19,8 +19,8 @@ using Microsoft.Extensions.Logging;
 
 namespace JMHDESIGN.Areas.Identity.Pages.Account
 {
-    // [AllowAnonymous]
-    [Authorize(Roles = "funcionario")]
+     [AllowAnonymous]
+    //[Authorize(Roles = "funcionario")]
     public class RegisterfModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
