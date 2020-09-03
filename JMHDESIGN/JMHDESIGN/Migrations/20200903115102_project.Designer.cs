@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JMHDESIGN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200824094313_projeto")]
-    partial class projeto
+    [Migration("20200903115102_project")]
+    partial class project
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -32,8 +32,10 @@ namespace JMHDESIGN.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contacto")
-                        .HasColumnType("int");
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -44,11 +46,13 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("NIF")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("UserNameId")
                         .HasColumnType("nvarchar(max)");
@@ -67,7 +71,8 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Assunto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<int>("ClienteFK")
                         .HasColumnType("int");
@@ -95,14 +100,17 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Cargo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("CodPostal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contacto")
-                        .HasColumnType("int");
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Morada")
                         .IsRequired()
@@ -110,14 +118,15 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("UserNameId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IDfunc");
 
-                    b.ToTable("Projetos");
+                    b.ToTable("Funcionarios");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.Projetos", b =>
@@ -131,13 +140,14 @@ namespace JMHDESIGN.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientesIDcliente")
+                    b.Property<int>("ClienteFK")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ficheiro")
@@ -148,38 +158,14 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.HasKey("IDproj");
 
-                    b.HasIndex("ClientesIDcliente");
+                    b.HasIndex("ClienteFK");
 
-                    b.ToTable("Funcionarios");
-                });
-
-            modelBuilder.Entity("JMHDESIGN.Models.ProjetosClientes", b =>
-                {
-                    b.Property<int>("IDprojcliente")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IDclienteFK")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("IDproj1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IDprojFK")
-                        .HasColumnType("int");
-
-                    b.HasKey("IDprojcliente");
-
-                    b.HasIndex("IDclienteFK");
-
-                    b.HasIndex("IDproj1");
-
-                    b.ToTable("ProjetosClientes");
+                    b.ToTable("Projetos");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.ProjetosFuncionarios", b =>
@@ -234,14 +220,14 @@ namespace JMHDESIGN.Migrations
                         new
                         {
                             Id = "c",
-                            ConcurrencyStamp = "877404f0-b1b2-4306-9911-08c95a29940d",
+                            ConcurrencyStamp = "75f77389-a6bc-4f92-8c5a-740b86e8c7c8",
                             Name = "cliente",
                             NormalizedName = "cliente"
                         },
                         new
                         {
                             Id = "f",
-                            ConcurrencyStamp = "3dd4cbf6-99f0-4316-8ae3-7f9b7681944d",
+                            ConcurrencyStamp = "614ab2d2-b3b1-43fd-ac96-deaf11ab707d",
                             Name = "funcionario",
                             NormalizedName = "funcionario"
                         });
@@ -431,22 +417,11 @@ namespace JMHDESIGN.Migrations
 
             modelBuilder.Entity("JMHDESIGN.Models.Projetos", b =>
                 {
-                    b.HasOne("JMHDESIGN.Models.Clientes", null)
+                    b.HasOne("JMHDESIGN.Models.Clientes", "Cliente")
                         .WithMany("ListaProjetos")
-                        .HasForeignKey("ClientesIDcliente");
-                });
-
-            modelBuilder.Entity("JMHDESIGN.Models.ProjetosClientes", b =>
-                {
-                    b.HasOne("JMHDESIGN.Models.Clientes", "IDcliente")
-                        .WithMany()
-                        .HasForeignKey("IDclienteFK")
+                        .HasForeignKey("ClienteFK")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("JMHDESIGN.Models.Projetos", "IDproj")
-                        .WithMany("ListaClientes")
-                        .HasForeignKey("IDproj1");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.ProjetosFuncionarios", b =>

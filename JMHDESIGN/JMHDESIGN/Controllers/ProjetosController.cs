@@ -63,7 +63,7 @@ namespace JMHDESIGN.Controllers
         [Authorize(Roles = "funcionario")]
         public IActionResult Create()
         {
-            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "CodPostal");
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "Nome");
             return View();
         }
 

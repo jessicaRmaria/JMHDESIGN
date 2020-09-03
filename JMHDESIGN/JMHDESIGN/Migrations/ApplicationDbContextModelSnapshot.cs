@@ -30,8 +30,10 @@ namespace JMHDESIGN.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contacto")
-                        .HasColumnType("int");
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -42,11 +44,13 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("NIF")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("UserNameId")
                         .HasColumnType("nvarchar(max)");
@@ -65,7 +69,8 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Assunto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<int>("ClienteFK")
                         .HasColumnType("int");
@@ -93,14 +98,17 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Cargo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("CodPostal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Contacto")
-                        .HasColumnType("int");
+                    b.Property<string>("Contacto")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
 
                     b.Property<string>("Morada")
                         .IsRequired()
@@ -108,14 +116,15 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<string>("UserNameId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IDfunc");
 
-                    b.ToTable("Projetos");
+                    b.ToTable("Funcionarios");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.Projetos", b =>
@@ -136,6 +145,7 @@ namespace JMHDESIGN.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Ficheiro")
@@ -146,13 +156,14 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.HasKey("IDproj");
 
                     b.HasIndex("ClienteFK");
 
-                    b.ToTable("Funcionarios");
+                    b.ToTable("Projetos");
                 });
 
             modelBuilder.Entity("JMHDESIGN.Models.ProjetosFuncionarios", b =>
@@ -207,14 +218,14 @@ namespace JMHDESIGN.Migrations
                         new
                         {
                             Id = "c",
-                            ConcurrencyStamp = "5ab76549-5684-4992-99e2-8eb51106d64c",
+                            ConcurrencyStamp = "75f77389-a6bc-4f92-8c5a-740b86e8c7c8",
                             Name = "cliente",
                             NormalizedName = "cliente"
                         },
                         new
                         {
                             Id = "f",
-                            ConcurrencyStamp = "5ae2834d-bb06-4778-ba2e-1dd621ddd763",
+                            ConcurrencyStamp = "614ab2d2-b3b1-43fd-ac96-deaf11ab707d",
                             Name = "funcionario",
                             NormalizedName = "funcionario"
                         });

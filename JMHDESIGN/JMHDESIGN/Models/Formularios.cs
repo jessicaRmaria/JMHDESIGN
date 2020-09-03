@@ -12,14 +12,17 @@ namespace JMHDESIGN.Models
 
     [Key]
     public int IDform { get; set; }
-    
-    [Required]
+
+    [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+    [StringLength(70, ErrorMessage = "Não pode ter mais do que {1} caráteres.")]
+    [Display(Name = "Assunto")]
     public string Assunto { get; set; }
 
     public DateTime Data { get; set; }
 
-    [Required]
-    public string Descricao { get; set; }
+     [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+     [Display(Name = "Descrição")]
+     public string Descricao { get; set; }
 
 
     [ForeignKey("Cliente")] 

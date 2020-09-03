@@ -35,7 +35,7 @@ namespace JMHDESIGN.Models
         [StringLength(9, MinimumLength = 9, ErrorMessage = "Deve escrever exatamente {1} algarismos no {0}.")]
         [RegularExpression("[239][0-9]{8}", ErrorMessage = "Deve escrever um nº, com 9 algarismos, começando por 2, 3 ou 9.")]
         [Display(Name = "Contacto")]
-        public int Contacto { get; set; }
+        public string Contacto { get; set; }
 
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         [Display(Name = "Morada")]
