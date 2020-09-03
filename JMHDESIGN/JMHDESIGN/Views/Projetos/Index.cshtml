@@ -80,24 +80,35 @@ else if (User.IsInRole("cliente"))
         <div class="imagens-even">
 
             <img class="imagens-even" src="~/Imagens/@Html.DisplayFor(modelItem => item.Fotografia)" alt="" />
-        </div>
 
+        </div>
+        <div class="descricao-even">
+            <p>Nome do Projeto: @Html.DisplayFor(modelItem => item.Nome) </p>
+            <p>Descrição: @Html.DisplayFor(modelItem => item.Descricao) </p>
+            <p>Categoria: @Html.DisplayFor(modelItem => item.Categoria)</p>
+            <p>Data de entrega: @Html.DisplayFor(modelItem => item.Data)</p>
+        </div>
     }
     else
     {
         <div class="imagens-odd">
-
             <img class="imagens-odd" src="~/Imagens/@Html.DisplayFor(modelItem => item.Fotografia)" alt="" />
         </div>
+
+        <div class="descricao-odd">
+            <p>Nome do Projeto: @Html.DisplayFor(modelItem => item.Nome) </p>
+            <p>Descrição: @Html.DisplayFor(modelItem => item.Descricao) </p>
+            <p>Categoria: @Html.DisplayFor(modelItem => item.Categoria)</p>
+            <p>Data de entrega: @Html.DisplayFor(modelItem => item.Data)</p>
+            <a href="~/Ficheiros/@Html.DisplayFor(modelItem => item.Ficheiro)" target="_blank">Download Projeto</a>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
     }
 
-    <div>
-        <p>Nome do Projeto: @Html.DisplayFor(modelItem => item.Nome) </p>
-        <p>Descrição: @Html.DisplayFor(modelItem => item.Descricao) </p>
-        <p>Categoria: @Html.DisplayFor(modelItem => item.Categoria)</p>
-        <p>Data de entrega: @Html.DisplayFor(modelItem => item.Data)</p>
-       
-    </div>
+
 </div>
     }
 }

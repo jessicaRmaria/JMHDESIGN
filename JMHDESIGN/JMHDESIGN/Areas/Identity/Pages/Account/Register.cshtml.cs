@@ -103,16 +103,18 @@ namespace JMHDESIGN.Areas.Identity.Pages.Account
 
                         _context.Add(novoCliente);
                         await _context.SaveChangesAsync();
+                        
 
 
-                    }catch(Exception)
+                    }
+                    catch(Exception)
                     {
                         await _userManager.RemoveFromRoleAsync(user, "cliente");
                         await _userManager.RemoveClaimAsync(user, claim);
                         await _userManager.DeleteAsync(user);
 
                         // falta aqui enviar uma mensagem de erro ao utilizador
-                        
+                        ModelState.AddModelError("Erro", "Não foi possivel efetuar o seu registo.");
                         return RedirectToAction("Index", "Home");
                     }
 
