@@ -6,60 +6,98 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Data)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fotografia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ficheiro)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Categoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fotografia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ficheiro)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IDproj">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IDproj">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IDproj">Delete</a>
-            </td>
-        </tr>
+@if (User.IsInRole("funcionario"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Categoria)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fotografia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ficheiro)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categoria)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Data)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fotografia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ficheiro)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IDproj">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.IDproj">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IDproj">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else if (User.IsInRole("cliente"))
+{
+    var counter = 1;
+    
+
+    @foreach (var item in Model)
+    {
+<div>
+    @if (counter++ % 2 == 0)
+    {
+        <div class="imagens-even">
+
+            <img class="imagens-even" src="~/Imagens/@Html.DisplayFor(modelItem => item.Fotografia)" alt="" />
+        </div>
+
+    }
+    else
+    {
+        <div class="imagens-odd">
+
+            <img class="imagens-odd" src="~/Imagens/@Html.DisplayFor(modelItem => item.Fotografia)" alt="" />
+        </div>
+    }
+
+    <div>
+        <p>Nome do Projeto: @Html.DisplayFor(modelItem => item.Nome) </p>
+        <p>Descrição: @Html.DisplayFor(modelItem => item.Descricao) </p>
+        <p>Categoria: @Html.DisplayFor(modelItem => item.Categoria)</p>
+        <p>Data de entrega: @Html.DisplayFor(modelItem => item.Data)</p>
+       
+    </div>
+</div>
+    }
+}

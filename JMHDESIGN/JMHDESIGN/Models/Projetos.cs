@@ -44,7 +44,8 @@ namespace JMHDESIGN.Models {
 
 
     [ForeignKey("Cliente")]
-    public int ClienteFK { get; set; }
+    [Display(Name = "Cliente")]
+        public int ClienteFK { get; set; }
     public Clientes Cliente { get; set; }
 
 
