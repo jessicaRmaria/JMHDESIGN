@@ -33,10 +33,18 @@ namespace JMHDESIGN.Controllers
 
         }
 
-        // GET: Projetos
+        [Authorize(Roles = "funcionario, cliente")] // GET: Projetos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projetos.Include(p => p.Cliente).ToListAsync());
+            if (User.IsInRole("funcionario"))
+            {
+                return View(await _context.Projetos.Include(p => p.Cliente).ToListAsync());
+            }
+
+
+            var cliente = _context.Projetos.Include(p => p.Cliente).Where(c => c.Cliente.UserNameId == _Usermanager.GetUserId(User));
+            return View(await cliente.ToListAsync());
+
         }
 
         // GET: Projetos/Details/5
@@ -63,7 +71,7 @@ namespace JMHDESIGN.Controllers
         [Authorize(Roles = "funcionario")]
         public IActionResult Create()
         {
-            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "CodPostal");
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "Nome");
             return View();
         }
 

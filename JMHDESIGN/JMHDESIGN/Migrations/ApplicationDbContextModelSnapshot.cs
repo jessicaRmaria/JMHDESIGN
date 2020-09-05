@@ -69,7 +69,8 @@ namespace JMHDESIGN.Migrations
 
                     b.Property<string>("Assunto")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
 
                     b.Property<int>("ClienteFK")
                         .HasColumnType("int");
@@ -217,14 +218,14 @@ namespace JMHDESIGN.Migrations
                         new
                         {
                             Id = "c",
-                            ConcurrencyStamp = "6e6c7b40-fc4b-48e9-99c8-2b06c28631ab",
+                            ConcurrencyStamp = "75f77389-a6bc-4f92-8c5a-740b86e8c7c8",
                             Name = "cliente",
                             NormalizedName = "cliente"
                         },
                         new
                         {
                             Id = "f",
-                            ConcurrencyStamp = "82bd8f7a-9105-4f57-a8e0-1fb300dc6e55",
+                            ConcurrencyStamp = "614ab2d2-b3b1-43fd-ac96-deaf11ab707d",
                             Name = "funcionario",
                             NormalizedName = "funcionario"
                         });

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JMHDESIGN.Data;
 using JMHDESIGN.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JMHDESIGN.Controllers
 {
@@ -43,28 +44,7 @@ namespace JMHDESIGN.Controllers
             return View(clientes);
         }
 
-        // GET: Clientes/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Clientes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDcliente,Nome,Email,Contacto,Morada,CodPostal,NIF,UserNameId")] Clientes clientes)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(clientes);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(clientes);
-        }
-
+        
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -117,6 +97,7 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Authorize(Roles = "funcionario")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,8 +114,10 @@ namespace JMHDESIGN.Controllers
 
             return View(clientes);
         }
-
+        
         // POST: Clientes/Delete/5
+        [Authorize(Roles = "funcionario")]
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

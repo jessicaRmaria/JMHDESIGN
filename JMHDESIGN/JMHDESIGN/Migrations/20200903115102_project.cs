@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JMHDESIGN.Migrations
 {
-    public partial class projeto : Migration
+    public partial class project : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,12 +52,12 @@ namespace JMHDESIGN.Migrations
                 {
                     IDcliente = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: false),
+                    Nome = table.Column<string>(maxLength: 70, nullable: false),
                     Email = table.Column<string>(nullable: true),
-                    Contacto = table.Column<int>(nullable: false),
+                    Contacto = table.Column<string>(maxLength: 9, nullable: false),
                     Morada = table.Column<string>(nullable: false),
                     CodPostal = table.Column<string>(nullable: false),
-                    NIF = table.Column<string>(nullable: false),
+                    NIF = table.Column<string>(maxLength: 9, nullable: false),
                     UserNameId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -71,9 +71,9 @@ namespace JMHDESIGN.Migrations
                 {
                     IDfunc = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: false),
-                    Cargo = table.Column<string>(nullable: false),
-                    Contacto = table.Column<int>(nullable: false),
+                    Nome = table.Column<string>(maxLength: 70, nullable: false),
+                    Cargo = table.Column<string>(maxLength: 70, nullable: false),
+                    Contacto = table.Column<string>(maxLength: 9, nullable: false),
                     Morada = table.Column<string>(nullable: false),
                     CodPostal = table.Column<string>(nullable: false),
                     UserNameId = table.Column<string>(nullable: true)
@@ -101,7 +101,7 @@ namespace JMHDESIGN.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,7 +122,7 @@ namespace JMHDESIGN.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,7 +142,7 @@ namespace JMHDESIGN.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,13 +160,13 @@ namespace JMHDESIGN.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,7 +186,7 @@ namespace JMHDESIGN.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,7 +195,7 @@ namespace JMHDESIGN.Migrations
                 {
                     IDform = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Assunto = table.Column<string>(nullable: false),
+                    Assunto = table.Column<string>(maxLength: 70, nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     Descricao = table.Column<string>(nullable: false),
                     ClienteFK = table.Column<int>(nullable: false)
@@ -208,7 +208,7 @@ namespace JMHDESIGN.Migrations
                         column: x => x.ClienteFK,
                         principalTable: "Clientes",
                         principalColumn: "IDcliente",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -217,43 +217,23 @@ namespace JMHDESIGN.Migrations
                 {
                     IDproj = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(nullable: false),
-                    Descricao = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(maxLength: 70, nullable: false),
+                    Descricao = table.Column<string>(nullable: false),
                     Categoria = table.Column<string>(nullable: false),
                     Data = table.Column<DateTime>(nullable: false),
                     Fotografia = table.Column<string>(nullable: true),
                     Ficheiro = table.Column<string>(nullable: true),
+                    ClienteFK = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projetos", x => x.IDproj);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProjetosClientes",
-                columns: table => new
-                {
-                    IDprojcliente = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IDprojFK = table.Column<int>(nullable: false),
-                    IDproj1 = table.Column<int>(nullable: true),
-                    IDclienteFK = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ProjetosClientes", x => x.IDprojcliente);
                     table.ForeignKey(
-                        name: "FK_ProjetosClientes_Clientes_IDclienteFK",
-                        column: x => x.IDclienteFK,
+                        name: "FK_Projetos_Clientes_ClienteFK",
+                        column: x => x.ClienteFK,
                         principalTable: "Clientes",
                         principalColumn: "IDcliente",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ProjetosClientes_Funcionarios_IDproj1",
-                        column: x => x.IDproj1,
-                        principalTable: "Projetos",
-                        principalColumn: "IDproj",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -269,28 +249,28 @@ namespace JMHDESIGN.Migrations
                 {
                     table.PrimaryKey("PK_ProjetosFuncionarios", x => x.IDprojfunc);
                     table.ForeignKey(
-                        name: "FK_ProjetosFuncionarios_Projetos_IDfuncFK",
+                        name: "FK_ProjetosFuncionarios_Funcionarios_IDfuncFK",
                         column: x => x.IDfuncFK,
                         principalTable: "Funcionarios",
                         principalColumn: "IDfunc",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjetosFuncionarios_Funcionarios_IDprojFK",
+                        name: "FK_ProjetosFuncionarios_Projetos_IDprojFK",
                         column: x => x.IDprojFK,
                         principalTable: "Projetos",
                         principalColumn: "IDproj",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c", "877404f0-b1b2-4306-9911-08c95a29940d", "cliente", "cliente" });
+                values: new object[] { "c", "75f77389-a6bc-4f92-8c5a-740b86e8c7c8", "cliente", "cliente" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f", "3dd4cbf6-99f0-4316-8ae3-7f9b7681944d", "funcionario", "funcionario" });
+                values: new object[] { "f", "614ab2d2-b3b1-43fd-ac96-deaf11ab707d", "funcionario", "funcionario" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -337,14 +317,9 @@ namespace JMHDESIGN.Migrations
                 column: "ClienteFK");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjetosClientes_IDclienteFK",
-                table: "ProjetosClientes",
-                column: "IDclienteFK");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProjetosClientes_IDproj1",
-                table: "ProjetosClientes",
-                column: "IDproj1");
+                name: "IX_Projetos_ClienteFK",
+                table: "Projetos",
+                column: "ClienteFK");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjetosFuncionarios_IDfuncFK",
@@ -378,9 +353,6 @@ namespace JMHDESIGN.Migrations
                 name: "Formularios");
 
             migrationBuilder.DropTable(
-                name: "ProjetosClientes");
-
-            migrationBuilder.DropTable(
                 name: "ProjetosFuncionarios");
 
             migrationBuilder.DropTable(
@@ -390,10 +362,10 @@ namespace JMHDESIGN.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Projetos");
+                name: "Funcionarios");
 
             migrationBuilder.DropTable(
-                name: "Funcionarios");
+                name: "Projetos");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
