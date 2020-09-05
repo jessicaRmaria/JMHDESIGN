@@ -270,8 +270,28 @@ namespace JMHDESIGN.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projetos = await _context.Projetos.FindAsync(id);
+
+            if (projetos.Fotografia != "default.jpg")
+            {
+                var fotografia = Path.Combine(_caminho.WebRootPath, "Imagens\\", projetos.Fotografia);
+
+                if (System.IO.File.Exists(fotografia))
+                    System.IO.File.Delete(fotografia);
+            }
+
+            if (projetos.Ficheiro != "")
+            {
+
+                var ficheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", projetos.Ficheiro);
+
+                if (System.IO.File.Exists(ficheiro))
+                    System.IO.File.Delete(ficheiro);
+            }
+
             _context.Projetos.Remove(projetos);
             await _context.SaveChangesAsync();
+
+           
             return RedirectToAction(nameof(Index));
         }
 

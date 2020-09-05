@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using JMHDESIGN.Data;
 using JMHDESIGN.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
 
 namespace JMHDESIGN.Controllers
 {
@@ -15,10 +17,15 @@ namespace JMHDESIGN.Controllers
     public class FuncionariosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _Usermanager;
+        private readonly IWebHostEnvironment _caminho;
 
-        public FuncionariosController(ApplicationDbContext context)
+
+        public FuncionariosController(ApplicationDbContext context, UserManager<IdentityUser> Usermanager, IWebHostEnvironment caminho)
         {
             _context = context;
+            _Usermanager = Usermanager;
+            _caminho = caminho;
         }
 
         [Authorize(Roles = "funcionario")]
@@ -26,21 +33,24 @@ namespace JMHDESIGN.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Funcionarios.ToListAsync());
+
+
         }
 
         // GET: Funcionarios/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Authorize(Roles = "funcionario")]
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
-                return NotFound();
+                return LocalRedirect("~/");
             }
 
             var funcionario = await _context.Funcionarios
-                .FirstOrDefaultAsync(m => m.IDfunc == id);
+                .FirstOrDefaultAsync(m => m.UserNameId == id);
             if (funcionario == null)
             {
-                return NotFound();
+                return LocalRedirect("~/");
             }
 
             return View(funcionario);

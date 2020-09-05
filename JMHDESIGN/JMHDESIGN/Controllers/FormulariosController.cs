@@ -25,8 +25,16 @@ namespace JMHDESIGN.Controllers
         // GET: Formularios
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Formularios.Include(f => f.Cliente);
-            return View(await applicationDbContext.ToListAsync());
+
+            if (User.IsInRole("funcionario"))
+            {
+                var applicationDbContext = _context.Formularios.Include(f => f.Cliente);
+                return View(await applicationDbContext.ToListAsync());
+            }
+
+
+            var cliente = _context.Formularios.Include(f => f.Cliente).Where(c => c.Cliente.UserNameId == _userManager.GetUserId(User));
+            return View(await cliente.ToListAsync());
         }
 
         // GET: Formularios/Details/5
@@ -50,8 +58,7 @@ namespace JMHDESIGN.Controllers
 
         // GET: Formularios/Create
         public IActionResult Create()
-        {
-            
+        { 
             return View();
         }
 
@@ -60,7 +67,7 @@ namespace JMHDESIGN.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IDform,Assunto,Data,Descricao")] Formularios formularios)
+        public async Task<IActionResult> Create([Bind("IDform,Assunto,Data,Descricao,ClienteFK")] Formularios formularios)
         {
 
             

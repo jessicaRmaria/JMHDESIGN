@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JMHDESIGN.Data;
 using JMHDESIGN.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace JMHDESIGN.Controllers
 {
@@ -15,9 +16,11 @@ namespace JMHDESIGN.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public ClientesController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> _userManager;
+        public ClientesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Clientes
@@ -27,21 +30,27 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Clientes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Authorize(Roles = "funcionario, cliente")]
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
-                return NotFound();
+                return LocalRedirect("~/");
             }
 
             var clientes = await _context.Clientes
-                .FirstOrDefaultAsync(m => m.IDcliente == id);
+                .FirstOrDefaultAsync(m => m.UserNameId == id);
             if (clientes == null)
             {
-                return NotFound();
+                return LocalRedirect("~/");
             }
 
-            return View(clientes);
+            if (User.IsInRole("funcionario") || clientes.UserNameId == _userManager.GetUserId(User))
+            {
+                return View(clientes);
+            }
+
+            return LocalRedirect("~/");
         }
 
         
@@ -91,8 +100,14 @@ namespace JMHDESIGN.Controllers
                         throw;
                     }
                 }
+
+                if (User.IsInRole("cliente"))
+                    return RedirectToAction("Details", new { id = clientes.UserNameId });
+
                 return RedirectToAction(nameof(Index));
             }
+
+          
             return View(clientes);
         }
 
@@ -102,7 +117,7 @@ namespace JMHDESIGN.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
             var clientes = await _context.Clientes
