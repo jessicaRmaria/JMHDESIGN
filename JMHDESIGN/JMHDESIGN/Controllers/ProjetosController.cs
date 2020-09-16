@@ -33,7 +33,8 @@ namespace JMHDESIGN.Controllers
 
         }
 
-        [Authorize(Roles = "funcionario, cliente")] // GET: Projetos
+        // GET: Projetos
+        [Authorize(Roles = "funcionario, cliente")] 
         public async Task<IActionResult> Index()
         {
             if (User.IsInRole("funcionario"))
@@ -48,6 +49,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Projetos/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um projeto, tais como:
+        /// o nome do projeto, a descrição, a categoria, a data de entrega, a fotografia e o ficheiro.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -67,6 +72,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Projetos/Create
+        /// <summary>
+        /// Cria um projeto com os seguintes campos diponiveis:
+        /// nome do projeto, descrição, categoria, data de entrega, fotografia e ficheiro.
+        /// </summary>
 
         [Authorize(Roles = "funcionario")]
         public IActionResult Create()
@@ -80,6 +89,7 @@ namespace JMHDESIGN.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [DisableRequestSizeLimit]
         [Authorize(Roles = "funcionario")]
         public async Task<IActionResult> Create([Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro,ClienteFK")] Projetos projeto, IFormFile imagem, IFormFile documento)
         {
@@ -89,7 +99,8 @@ namespace JMHDESIGN.Controllers
             bool existeImagem = false;
             string caminhoFicheiro = "";
             bool existeFicheiro = false;
-            // cria o um novo id unico para nome do ficheiro e da fotografia
+
+            // cria um novo id unico para nome do ficheiro e da fotografia
             Guid g;
             g = Guid.NewGuid();
 
@@ -105,7 +116,7 @@ namespace JMHDESIGN.Controllers
                     string extensao = Path.GetExtension(imagem.FileName).ToLower();
                     string nome = g.ToString() + extensao;
 
-                    caminhoImagem = Path.Combine(_caminho.WebRootPath, "Imagens\\", nome);
+                    caminhoImagem = Path.Combine(_caminho.WebRootPath, "img\\", nome);
                     projeto.Fotografia = nome;
 
                     existeImagem = true;
@@ -116,7 +127,7 @@ namespace JMHDESIGN.Controllers
                 }
             }
 
-            // Processar o FICHEIRO
+            // processar o FICHEIRO
             if (documento == null)
             {
                 projeto.Ficheiro = "";
@@ -145,6 +156,7 @@ namespace JMHDESIGN.Controllers
                 {
                     _context.Add(projeto);
                     await _context.SaveChangesAsync();
+
                     // guardar os ficheiros (imagem + ficheiro)
                     if (existeFicheiro)
                     {
@@ -165,20 +177,19 @@ namespace JMHDESIGN.Controllers
                 throw;
             }
 
-            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "CodPostal", projeto.ClienteFK);
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "Nome", projeto.ClienteFK);
             return View(projeto);
         }
 
 
 
-
-
-
-
-
         // GET: Projetos/Edit/5
+        /// <summary>
+        /// Edita um projeto com os seguintes campos disponiveis:
+        /// nome do projeto, descrição, categoria, data de entrega, fotografia e ficheiro.
+        /// </summary>
 
-        [Authorize(Roles = "funcionario")]
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode editar os dados de um projeto
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -192,11 +203,11 @@ namespace JMHDESIGN.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["ClienteFK"] = new SelectList(_context.Clientes, "IDcliente", "Nome");
+
             return View(projetos);
         }
-
-
-
 
 
         // POST: Projetos/Edit/5
@@ -204,48 +215,161 @@ namespace JMHDESIGN.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "funcionario")]
+        [DisableRequestSizeLimit]
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode editar os dados de um projeto
 
-        public async Task<IActionResult> Edit(int id, [Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro,ClienteFK")] Projetos projeto)
+        public async Task<IActionResult> Edit(int id, [Bind("IDproj,Nome,Descricao,Categoria,Data,Fotografia,Ficheiro,ClienteFK")] Projetos projeto, IFormFile imagem, IFormFile documento)
         {
             if (id != projeto.IDproj)
             {
                 return NotFound();
             }
 
+            var projetoVelho = await _context.Projetos.FindAsync(id);
 
             // não esquecer:
             // se existe uma nova imagem, troca-se a imagem 'velha' pela 'nova'
             // o mesmo para o documento
 
+            string caminhoImagem = "";
+            bool existeImagem = false;
+            string caminhoFicheiro = "";
+            bool existeFicheiro = false;
 
+            // cria um novo id unico para nome do ficheiro e da fotografia
+            Guid g;
+            g = Guid.NewGuid();
 
-            if (ModelState.IsValid)
+            // processar a FOTOGRAFIA
+            if (imagem == null && "default.jpg" == projetoVelho.Fotografia)
             {
-                try
-                {
-                    _context.Update(projeto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProjetosExists(projeto.IDproj))
+                    projeto.Fotografia = "default.jpg";
+            }
+            else
+            {
+                if (imagem != null && imagem.FileName != projetoVelho.Fotografia) {
+                    if (imagem.ContentType == "image/jpeg" || imagem.ContentType == "image/png")
                     {
-                        return NotFound();
+                        string extensao = Path.GetExtension(imagem.FileName).ToLower();
+                        string nome = g.ToString() + extensao;
+
+                        caminhoImagem = Path.Combine(_caminho.WebRootPath, "img\\", nome);
+                        projeto.Fotografia = nome;
+
+                        existeImagem = true;
                     }
                     else
                     {
-                        throw;
+                        projeto.Fotografia = "default.jpg";
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                {
+                    projeto.Fotografia = projetoVelho.Fotografia;
+                }
+
             }
+
+            // processar o FICHEIRO
+            if (documento == null && "" == projetoVelho.Ficheiro)
+            {
+                    projeto.Ficheiro = "";
+            }
+            else
+            {
+                if (documento != null && documento.FileName != projetoVelho.Ficheiro)
+                {
+                    if (documento.ContentType == "application/pdf") // pq só se pretende PDFs
+                    {
+                        string extensao = Path.GetExtension(documento.FileName).ToLower();
+                        string nome = g.ToString() + extensao;
+
+                        caminhoFicheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", nome);
+                        projeto.Ficheiro = nome;
+
+                        existeFicheiro = true;
+                    }
+                    else
+                    {
+                        projeto.Ficheiro = "";
+                    }
+                }
+                
+                else
+                {
+                    projeto.Ficheiro = projetoVelho.Ficheiro;
+                }
+            }
+                try
+                {
+                
+
+            if (ModelState.IsValid)
+            {
+                    _context.Entry(projetoVelho).State = EntityState.Detached;
+                    _context.Update(projeto);
+                    await _context.SaveChangesAsync();
+
+                    // guardar os ficheiros (imagem + ficheiro)
+                    if (existeFicheiro)
+                    {
+
+                        // se, caso não for inserido um ficheiro no projeto o campo fica vazio
+                        if (projeto.Ficheiro != "")
+                        {
+
+                            var ficheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", projeto.Ficheiro);
+
+                            // caso exista um ficheiro, esse ficheiro é inserido pelo funcionário
+                            if (System.IO.File.Exists(ficheiro))
+                                System.IO.File.Delete(ficheiro);
+                        }
+
+                        using var stream = new FileStream(caminhoFicheiro, FileMode.Create);
+                        await documento.CopyToAsync(stream);
+                    }
+                    if (existeImagem)
+                    {
+
+                        // se, caso não for inserida uma fotografia no projeto, insere uma fotografia por defeito
+                        if (projeto.Fotografia != "default.jpg")
+                        {
+                            var fotografia = Path.Combine(_caminho.WebRootPath, "img\\", projeto.Fotografia);
+
+                            // caso exista uma fotografia, essa fotografia é inserida pelo funcionário
+                            if (System.IO.File.Exists(fotografia))
+                                System.IO.File.Delete(fotografia);
+                        }
+
+                            using var stream = new FileStream(caminhoImagem, FileMode.Create);
+                        await imagem.CopyToAsync(stream);
+                    }
+
+                    return RedirectToAction(nameof(Index));
+            }
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProjetosExists(projeto.IDproj))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             return View(projeto);
         }
 
         // GET: Projetos/Delete/5
+        /// <summary>
+        /// Elimina um projeto.
+        /// </summary>
 
-        [Authorize(Roles = "funcionario")]
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar os dados de um projeto
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -266,24 +390,29 @@ namespace JMHDESIGN.Controllers
         // POST: Projetos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "funcionario")]
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar os dados de um projeto
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var projetos = await _context.Projetos.FindAsync(id);
 
-            if (projetos.Fotografia != "default.jpg")
-            {
-                var fotografia = Path.Combine(_caminho.WebRootPath, "Imagens\\", projetos.Fotografia);
 
+            // se, caso não for inserida uma fotografia no projeto, insere uma fotografia por defeito
+            if (projetos.Fotografia != null && projetos.Fotografia != "default.jpg")
+            {
+                var fotografia = Path.Combine(_caminho.WebRootPath, "img\\", projetos.Fotografia);
+
+                // caso exista uma fotografia, essa fotografia é inserida pelo funcionário
                 if (System.IO.File.Exists(fotografia))
                     System.IO.File.Delete(fotografia);
             }
 
-            if (projetos.Ficheiro != "")
+            // se, caso não for inserido um ficheiro no projeto o campo fica vazio
+            if (projetos.Ficheiro != null && projetos.Ficheiro != "")
             {
 
                 var ficheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", projetos.Ficheiro);
 
+                // caso exista um ficheiro, esse ficheiro é inserido pelo funcionário
                 if (System.IO.File.Exists(ficheiro))
                     System.IO.File.Delete(ficheiro);
             }

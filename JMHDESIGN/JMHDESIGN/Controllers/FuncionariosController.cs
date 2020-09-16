@@ -28,8 +28,9 @@ namespace JMHDESIGN.Controllers
             _caminho = caminho;
         }
 
-        [Authorize(Roles = "funcionario")]
         // GET: Funcionarios
+        [Authorize(Roles = "funcionario")]
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.Funcionarios.ToListAsync());
@@ -38,6 +39,11 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Funcionarios/Details/5
+        /// <summary>
+        /// Mostra os dados de um funcionario, acedendo aos dados relativos a ele.
+        /// </summary>
+        /// <param name="id">identificador do funcionário a apresentar os detalhes</param>
+        /// <returns></returns>
         [Authorize(Roles = "funcionario")]
         public async Task<IActionResult> Details(string id)
         {
@@ -57,6 +63,9 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Funcionarios/Create
+        /// <summary>
+        /// Cria funcionarios
+        /// </summary>
         public IActionResult Create()
         {
             return Redirect("~/Identity/Account/Registerf");
@@ -79,6 +88,9 @@ namespace JMHDESIGN.Controllers
         //}
 
         // GET: Funcionarios/Edit/5
+        /// <summary>
+        /// Edita os dados de um funcionário
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -130,6 +142,9 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Funcionarios/Delete/5
+        /// <summary>
+        /// Elimina os dados de um funcionário
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

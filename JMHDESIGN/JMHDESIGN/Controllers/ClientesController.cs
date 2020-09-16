@@ -30,8 +30,14 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Clientes/Details/5
-        [Authorize(Roles = "funcionario, cliente")]
-        public async Task<IActionResult> Details(string id)
+        /// <summary>
+        /// Mostra os dados de um cliente, acedendo aos dados relativos a ele,
+        /// associados a cada conta de utilizador
+        /// </summary>
+        /// <param name="id">identificador do cliente a apresentar os detalhes</param>
+        /// <returns></returns>
+        [Authorize(Roles = "funcionario, cliente")] // ambos os funcionários e os clientes autenticados têm acesso a esta informação
+        public async Task<IActionResult> Details(string id) 
         {
             if (id == null)
             {
@@ -53,8 +59,11 @@ namespace JMHDESIGN.Controllers
             return LocalRedirect("~/");
         }
 
-        
+
         // GET: Clientes/Edit/5
+        /// <summary>
+        /// Edita os dados de um cliente
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -112,7 +121,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Clientes/Delete/5
-        [Authorize(Roles = "funcionario")]
+        /// <summary>
+        /// Elimina os dados de um cliente
+        /// </summary>
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar dados de um cliente
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -131,8 +143,8 @@ namespace JMHDESIGN.Controllers
         }
         
         // POST: Clientes/Delete/5
-        [Authorize(Roles = "funcionario")]
-        
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar dados de um cliente
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -35,13 +35,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="Fotografia" class="control-label"></label>
-                <input asp-for="Fotografia" class="form-control" />
+                <input name="imagem" type="file" class="form-control" accept=".jpg,.png" />
                 <span asp-validation-for="Fotografia" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Ficheiro" class="control-label"></label>
-                <input asp-for="Ficheiro" class="form-control" />
+                <input name="documento" type="file" class="form-control" accept=".pdf" />
                 <span asp-validation-for="Ficheiro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClienteFK" class="control-label"></label>
+                <select asp-for="ClienteFK" class="form-control" asp-items="ViewBag.ClienteFK"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

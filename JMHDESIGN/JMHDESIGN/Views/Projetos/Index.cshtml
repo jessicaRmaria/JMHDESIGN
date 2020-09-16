@@ -30,7 +30,7 @@
                     @Html.DisplayNameFor(model => model.Fotografia)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Ficheiro)
+                    @Html.DisplayNameFor(model => model.Cliente.Nome)
                 </th>
                 <th></th>
             </tr>
@@ -52,10 +52,10 @@
                         @Html.DisplayFor(modelItem => item.Data)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Fotografia)
+                        <img src="/img/@Html.DisplayFor(modelItem => item.Fotografia)"/>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Ficheiro)
+                        @Html.DisplayFor(modelItem => item.Cliente.Nome)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.IDproj">Edit</a> |

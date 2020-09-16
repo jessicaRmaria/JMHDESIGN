@@ -10,14 +10,22 @@ namespace JMHDESIGN.Models
     public class ProjetosFuncionarios
     {
 
+    /// <summary>
+    /// ID do ProjetoFuncionario
+    /// </summary>  
     [Key]
     public int IDprojfunc { get; set; }
 
-
+    /// <summary>
+    /// Chave estrangeira
+    /// </summary>  
     [ForeignKey("IDproj")]
     public int IDprojFK { get; set; }
     public Projetos IDproj { get; set; }
 
+    /// <summary>
+    /// Chave estrangeira
+    /// </summary>  
     [ForeignKey("IDfunc")]
     public int IDfuncFK { get; set; }
     public Funcionarios IDfunc { get; set; }

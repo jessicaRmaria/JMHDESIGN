@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using JMHDESIGN.Data;
 using JMHDESIGN.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JMHDESIGN.Controllers
 {
@@ -38,6 +39,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Formularios/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um formulário, tais como:
+        /// o nome do cliente, o assunto, a descrição e a data do dia submetido.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -57,6 +62,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Formularios/Create
+        /// <summary>
+        /// Cria um formulário com os seguintes campos diponiveis:
+        /// nome do cliente, assunto, descrição e a data.
+        /// </summary>
         public IActionResult Create()
         { 
             return View();
@@ -84,6 +93,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Formularios/Edit/5
+        /// <summary>
+        /// Edita um formulário com os seguintes campos disponiveis:
+        /// nome do cliente, assunto, descrição e a data.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -94,7 +107,7 @@ namespace JMHDESIGN.Controllers
             var formularios = await _context.Formularios.FindAsync(id);
             if (formularios == null)
             {
-                return NotFound(); //mudar
+                return NotFound();
             }
            
             return View(formularios);
@@ -137,6 +150,10 @@ namespace JMHDESIGN.Controllers
         }
 
         // GET: Formularios/Delete/5
+        /// <summary>
+        /// Elimina um formulário.
+        /// </summary>
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar formulário
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -158,6 +175,7 @@ namespace JMHDESIGN.Controllers
         // POST: Formularios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "funcionario")] // apenas o funcionário pode eliminar formulários
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var formularios = await _context.Formularios.FindAsync(id);

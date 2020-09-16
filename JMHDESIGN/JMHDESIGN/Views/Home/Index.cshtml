@@ -1,8 +1,147 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <meta charset="utf-8">
 
-<div class="text-center">
-    <h1 class="display-4">JMHDESIGN</h1>
-    <p>Design & Desenvolvimento Web</p>
-</div>
+    <!-- Favicons -->
+    <link href="img/favicon.png" rel="icon">
+    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS File -->
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Libraries CSS Files -->
+    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+
+    <!-- Main Stylesheet File -->
+    <link href="css/style.css" rel="stylesheet">
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+</head>
+@if (!User.Identity.IsAuthenticated)
+{
+    <body>
+
+
+
+
+        <!--==========================
+            Hero Section
+          ============================-->
+        <section id="hero">
+            <div class="hero-container">
+                <h1>Bem vindo</h1>
+                <h2>registe-se para poder ter acesso aos seus trabalhos</h2>
+                <a href="#about" class="btn-get-started">Get Started</a>
+            </div>
+        </section><!-- #hero -->
+
+        <main id="main">
+
+
+
+            <!--==========================
+              About Us Section
+            ============================-->
+            <section id="about">
+                <div class="container">
+                    <div class="row about-container">
+
+                        <div class="col-lg-6 content order-lg-1 order-2">
+                            <h2 class="title">Sobre nós</h2>
+                            <p>
+                                Somos duas alunas no segundo ano de Engenharia Informática no Instituto Politécnico de Tomar.
+                                A realização deste projeto foi um desafio para nós, principalmente e tendo em conta a situação atual no nosso país e mundo.
+                                O nosso segundo semestre foi passado em casa com aulas online e nem sempre a aprendizagem foi fácil.
+                            </p>
+
+                            <div class="icon-box wow fadeInUp">
+                                <div class="icon"><i class="fa fa-map-marker" style="font-size:24px"></i></div>
+                                <h4 class="title"><a href="">Morada</a></h4>
+                                <p class="description">Rua do Instituto Politécnico de Tomar 2300 Tomar</p>
+                            </div>
+
+                            <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+                                <div class="icon"><i class="fa fa-phone" style="font-size:24px"></i></div>
+                                <h4 class="title"><a href="">Contacto</a></h4>
+                                <p class="description">249000000</p>
+                            </div>
+
+                            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+                                <div class="icon"><i class="fa fa-facebook-square" style="font-size:24px"></i></div>
+                                <h4 class="title"><a href="">Facebook</a></h4>
+                                <p class="description">JMHDESIGN</p>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight">
+                            <img src="/img/logo_jmhdesign.jpg" width="600" height="335">
+                        </div>
+
+                    </div>
+
+                </div>
+            </section><!-- #about -->
+            <!--==========================
+              Team Section
+            ============================-->
+            <section id="team">
+                <div class="container wow fadeInUp">
+                    <div class="section-header">
+                        <h3 class="section-title">Equipa</h3>
+                        <p class="section-description">A nossa equipa de trabalho</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="member">
+                                <div class="pic"><img src="~/img/jessicah.jpg" alt=""></div>
+                                <h4>Jéssica Henriques</h4>
+                                <span>Web developer/designer</span>
+                                <div class="social">
+                                    <a href=""><i class="fa fa-facebook"></i></a>
+                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href=""><i class="fa fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="member">
+                                <div class="pic"><img src="~/img/jessicam.jpg" alt=""></div>
+                                <h4>Jéssica Maria</h4>
+                                <span>Web developer/designer</span>
+                                <div class="social">
+                                    <a href=""><i class="fa fa-facebook"></i></a>
+                                    <a href=""><i class="fa fa-linkedin"></i></a>
+                                    <a href=""><i class="fa fa-github"></i></a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section><!-- #team -->
+            
+
+    </body>
+}
+else if (User.IsInRole("cliente"))
+{
+
+
+
+}
+else { }
