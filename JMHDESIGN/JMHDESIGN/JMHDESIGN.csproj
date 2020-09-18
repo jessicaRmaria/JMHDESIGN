@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
     <Folder Include="wwwroot\Ficheiros\" />
+    <Folder Include="wwwroot\Imagens-site\" />
   </ItemGroup>
 
 </Project>

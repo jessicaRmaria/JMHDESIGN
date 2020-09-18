@@ -19,14 +19,14 @@
         @if (User.IsInRole("cliente"))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-action="Details" asp-controller="Clientes" asp-route-id="@UserManager.GetUserId(User)" title="Manage">Olá @nome!</a>
+                <a class="nav-link text-dark" asp-action="Profile" asp-controller="Clientes" asp-route-id="@UserManager.GetUserId(User)" title="Manage">Olá @nome!</a>
             </li>
         }
 
         else
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-action="Details" asp-controller="Funcionarios" asp-route-id="@UserManager.GetUserId(User)" title="Manage">Olá @nome!</a>
+                <a class="nav-link text-dark" asp-action="Profile" asp-controller="Funcionarios" asp-route-id="@UserManager.GetUserId(User)" title="Manage">Olá @nome!</a>
             </li>
         }
 

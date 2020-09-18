@@ -1,147 +1,222 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Página Inicial";
 }
 <head>
     <meta charset="utf-8">
 
-    <!-- Favicons -->
-    <link href="img/favicon.png" rel="icon">
-    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
-
-    <!-- Bootstrap CSS File -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Libraries CSS Files -->
-    <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-
-    <!-- Main Stylesheet File -->
-    <link href="css/style.css" rel="stylesheet">
-
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
 </head>
+
+
 @if (!User.Identity.IsAuthenticated)
 {
-    <body>
 
+<body>
+    <!--========================== PÁGINA INICIAL ============================-->
 
+    <!--==========================
+        Hero Section
+      ============================-->
+    <section id="hero">
+        <div class="hero-container">
+            <h1>Bem vindo</h1>
+            <h2>registe-se para poder ter acesso aos seus trabalhos</h2>
+        </div>
+    </section>
 
+    <!--==========================
+        About Us Section
+    ============================-->
+    <section id="about">
+        <div class="container">
+            <div class="row about-container">
 
-        <!--==========================
-            Hero Section
-          ============================-->
-        <section id="hero">
-            <div class="hero-container">
-                <h1>Bem vindo</h1>
-                <h2>registe-se para poder ter acesso aos seus trabalhos</h2>
-                <a href="#about" class="btn-get-started">Get Started</a>
+                <div class="col-lg-6 content order-lg-1 order-2">
+                    <h2 class="title">Sobre nós</h2>
+                    <p>
+                        Somos duas alunas no segundo ano de Engenharia Informática no Instituto Politécnico de Tomar.
+                        A realização deste projeto foi um desafio para nós, principalmente e tendo em conta a situação atual no nosso país e mundo.
+                        O nosso segundo semestre foi passado em casa com aulas online e nem sempre a aprendizagem foi fácil.
+                    </p>
+
+                    <div class="icon-box wow fadeInUp">
+                        <div class="icon"><i class="fa fa-map-marker" style="font-size:24px"></i></div>
+                        <h4 class="title">Morada</h4>
+                        <p class="description">Rua do Instituto Politécnico de Tomar 2300 Tomar</p>
+                    </div>
+
+                    <div class="icon-box wow fadeInUp">
+                        <div class="icon"><i class="fa fa-phone" style="font-size:24px"></i></div>
+                        <h4 class="title">Contacto</h4>
+                        <p class="description">249000000</p>
+                    </div>
+
+                    <div class="icon-box wow fadeInUp">
+                        <div class="icon"><i class="fa fa-facebook-square" style="font-size:24px"></i></div>
+                        <h4 class="title">Facebook</h4>
+                        <p class="description">JMHDESIGN</p>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight">
+                    <img src="/Imagens-site/logo_jmhdesign.jpg" width="600" height="250">
+                </div>
+
             </div>
-        </section><!-- #hero -->
 
-        <main id="main">
+        </div>
+    </section>
 
-
-
-            <!--==========================
-              About Us Section
-            ============================-->
-            <section id="about">
-                <div class="container">
-                    <div class="row about-container">
-
-                        <div class="col-lg-6 content order-lg-1 order-2">
-                            <h2 class="title">Sobre nós</h2>
-                            <p>
-                                Somos duas alunas no segundo ano de Engenharia Informática no Instituto Politécnico de Tomar.
-                                A realização deste projeto foi um desafio para nós, principalmente e tendo em conta a situação atual no nosso país e mundo.
-                                O nosso segundo semestre foi passado em casa com aulas online e nem sempre a aprendizagem foi fácil.
-                            </p>
-
-                            <div class="icon-box wow fadeInUp">
-                                <div class="icon"><i class="fa fa-map-marker" style="font-size:24px"></i></div>
-                                <h4 class="title"><a href="">Morada</a></h4>
-                                <p class="description">Rua do Instituto Politécnico de Tomar 2300 Tomar</p>
-                            </div>
-
-                            <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
-                                <div class="icon"><i class="fa fa-phone" style="font-size:24px"></i></div>
-                                <h4 class="title"><a href="">Contacto</a></h4>
-                                <p class="description">249000000</p>
-                            </div>
-
-                            <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
-                                <div class="icon"><i class="fa fa-facebook-square" style="font-size:24px"></i></div>
-                                <h4 class="title"><a href="">Facebook</a></h4>
-                                <p class="description">JMHDESIGN</p>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 background order-lg-2 order-1 wow fadeInRight">
-                            <img src="/img/logo_jmhdesign.jpg" width="600" height="335">
-                        </div>
-
+    <!--==========================
+        Portefólio
+    ============================-->
+    <section id="team">
+        <div class="container wow fadeInUp">
+            <div class="section-header">
+                <h3 class="section-title">Portefólio</h3>
+                <p class="section-description">Alguns trabalhos realizados</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/festa_verao_2018.jpg" alt=""></div>
+                        <h4>Cartaz</h4>
+                        <span>Cartaz para festa de Verão</span>
                     </div>
-
                 </div>
-            </section><!-- #about -->
-            <!--==========================
-              Team Section
-            ============================-->
-            <section id="team">
-                <div class="container wow fadeInUp">
-                    <div class="section-header">
-                        <h3 class="section-title">Equipa</h3>
-                        <p class="section-description">A nossa equipa de trabalho</p>
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/halloween_2018.jpg" alt=""></div>
+                        <h4>Cartaz</h4>
+                        <span>Cartaz para festa de Halloween</span>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="member">
-                                <div class="pic"><img src="~/img/jessicah.jpg" alt=""></div>
-                                <h4>Jéssica Henriques</h4>
-                                <span>Web developer/designer</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                    <a href=""><i class="fa fa-github"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="member">
-                                <div class="pic"><img src="~/img/jessicam.jpg" alt=""></div>
-                                <h4>Jéssica Maria</h4>
-                                <span>Web developer/designer</span>
-                                <div class="social">
-                                    <a href=""><i class="fa fa-facebook"></i></a>
-                                    <a href=""><i class="fa fa-linkedin"></i></a>
-                                    <a href=""><i class="fa fa-github"></i></a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-            </section><!-- #team -->
-            
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/paintball_2020.jpg" alt=""></div>
+                        <h4>Cartaz</h4>
+                        <span>Cartaz para convívio de Paintball</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/pda_2019.jpg" alt=""></div>
+                        <h4>Cartaz</h4>
+                        <span>Cartaz para Passagem de Ano</span>
+                    </div>
+                </div>
+            </div>
 
-    </body>
+        </div>
+    </section>
+
+    <!--==========================
+        Team Section
+    ============================-->
+    <section id="team">
+        <div class="container wow fadeInUp">
+            <div class="section-header">
+                <h3 class="section-title">Equipa</h3>
+                <p class="section-description">A nossa equipa de trabalho</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/jessicah.jpg" alt=""></div>
+                        <h4>Jéssica Henriques</h4>
+                        <span>Web developer/designer</span>
+                        <div class="social">
+                            <a href="https://www.facebook.com/jessica.henriques.528"><i class="fa fa-facebook"></i></a>
+                            <a href="https://www.linkedin.com/in/j%C3%A9ssica-henriques-20808913a/"><i class="fa fa-linkedin"></i></a>
+                            <a href="https://github.com/jessicadasilvahenriques"><i class="fa fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="member">
+                        <div class="pic"><img src="/Imagens-site/jessicam.jpg" alt=""></div>
+                        <h4>Jéssica Maria</h4>
+                        <span>Web developer/designer</span>
+                        <div class="social">
+                            <a href="https://www.facebook.com/profile.php?id=100013936446830"><i class="fa fa-facebook"></i></a>
+                            <a href="https://www.linkedin.com/in/jessica-m-b1b6891b7/"><i class="fa fa-linkedin"></i></a>
+                            <a href="https://github.com/jessicaRmaria"><i class="fa fa-github"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+
 }
+
 else if (User.IsInRole("cliente"))
 {
 
+    <!--========================== CLIENTE ============================-->
 
+    <section id="hero-cliente">
+        <div class="hero-container-cliente">
+            <h1>Bem vindo ao seu portefólio pessoal</h1>
+            <h2>aqui tem acesso aos seus projetos criados pela nossa empresa</h2>
+        </div>
+    </section>
+
+
+    <!--==========================
+        Contacts
+    ============================-->
+    <section id="about">
+        <div class="container">
+            <div class="row about-container">
+
+                <div class="col-lg-6 content order-lg-1 order-2">
+                    <h2 class="title">Contactos</h2>
+
+                    <div class="icon-box wow fadeInUp">
+                        <div class="icon"><i class="fa fa-map-marker" style="font-size:24px"></i></div>
+                        <h4 class="title"><a href="">Morada</a></h4>
+                        <p class="description">Rua do Instituto Politécnico de Tomar 2300 Tomar</p>
+                    </div>
+
+                    <div class="icon-box wow fadeInUp" data-wow-delay="0.2s">
+                        <div class="icon"><i class="fa fa-phone" style="font-size:24px"></i></div>
+                        <h4 class="title"><a href="">Contacto</a></h4>
+                        <p class="description">249000000</p>
+                    </div>
+
+                    <div class="icon-box wow fadeInUp" data-wow-delay="0.4s">
+                        <div class="icon"><i class="fa fa-facebook-square" style="font-size:24px"></i></div>
+                        <h4 class="title"><a href="">Facebook</a></h4>
+                        <p class="description">JMHDESIGN</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
 
 }
-else { }
+
+else
+{
+    <!--========================== FUNCIONARIO ============================-->
+
+    <section id="hero-func">
+        <div class="hero-container-func">
+            <h1>Bem vindo</h1>
+            <h2>já pode adicionar projetos, bom trabalho!</h2>
+        </div>
+    </section>
+
+}

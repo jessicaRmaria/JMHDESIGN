@@ -1,14 +1,11 @@
 ﻿@model IEnumerable<JMHDESIGN.Models.Clientes>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clientes";
 }
 
-<h1>Index</h1>
+<h1>Clientes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -29,9 +26,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NIF)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserNameId)
             </th>
             <th></th>
         </tr>
@@ -58,12 +52,9 @@
                 @Html.DisplayFor(modelItem => item.NIF)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserNameId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IDcliente">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IDcliente">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IDcliente">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IDcliente">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IDcliente">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.IDcliente">Eliminar</a>
             </td>
         </tr>
 }

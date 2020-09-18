@@ -227,7 +227,6 @@ namespace JMHDESIGN.Controllers
 
             var projetoVelho = await _context.Projetos.FindAsync(id);
 
-            // não esquecer:
             // se existe uma nova imagem, troca-se a imagem 'velha' pela 'nova'
             // o mesmo para o documento
 
@@ -318,7 +317,7 @@ namespace JMHDESIGN.Controllers
                         if (projeto.Ficheiro != "")
                         {
 
-                            var ficheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", projeto.Ficheiro);
+                            var ficheiro = Path.Combine(_caminho.WebRootPath, "Ficheiros\\", projetoVelho.Ficheiro);
 
                             // caso exista um ficheiro, esse ficheiro é inserido pelo funcionário
                             if (System.IO.File.Exists(ficheiro))
@@ -334,7 +333,7 @@ namespace JMHDESIGN.Controllers
                         // se, caso não for inserida uma fotografia no projeto, insere uma fotografia por defeito
                         if (projeto.Fotografia != "default.jpg")
                         {
-                            var fotografia = Path.Combine(_caminho.WebRootPath, "img\\", projeto.Fotografia);
+                            var fotografia = Path.Combine(_caminho.WebRootPath, "img\\", projetoVelho.Fotografia);
 
                             // caso exista uma fotografia, essa fotografia é inserida pelo funcionário
                             if (System.IO.File.Exists(fotografia))

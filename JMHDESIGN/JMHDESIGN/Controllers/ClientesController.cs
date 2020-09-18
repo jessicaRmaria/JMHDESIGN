@@ -37,7 +37,38 @@ namespace JMHDESIGN.Controllers
         /// <param name="id">identificador do cliente a apresentar os detalhes</param>
         /// <returns></returns>
         [Authorize(Roles = "funcionario, cliente")] // ambos os funcionários e os clientes autenticados têm acesso a esta informação
-        public async Task<IActionResult> Details(string id) 
+        public async Task<IActionResult> Details(int id) 
+        {
+            if (id == null)
+            {
+                return LocalRedirect("~/");
+            }
+
+            var clientes = await _context.Clientes
+                .FirstOrDefaultAsync(m => m.IDcliente == id);
+            if (clientes == null)
+            {
+                return LocalRedirect("~/");
+            }
+
+            if (User.IsInRole("funcionario") || clientes.UserNameId == _userManager.GetUserId(User))
+            {
+                return View(clientes);
+            }
+
+            return LocalRedirect("~/");
+        }
+
+
+        // GET: Clientes/Profile/5
+        /// <summary>
+        /// Mostra os dados de um cliente, acedendo aos dados relativos a ele,
+        /// associados a cada conta de utilizador
+        /// </summary>
+        /// <param name="id">identificador do cliente a apresentar os detalhes</param>
+        /// <returns></returns>
+        [Authorize(Roles = "cliente")] // apenas clientes autenticados têm acesso a esta informação
+        public async Task<IActionResult> Profile(string id)
         {
             if (id == null)
             {

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<JMHDESIGN.Models.Funcionarios>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Funcionários";
 }
 
-<h1>Index</h1>
+<h1>Funcionários</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Criar novo</a>
 </p>
 <table class="table">
     <thead>
@@ -26,9 +26,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CodPostal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserNameId)
             </th>
             <th></th>
         </tr>
@@ -52,12 +49,9 @@
                 @Html.DisplayFor(modelItem => item.CodPostal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserNameId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IDfunc">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IDfunc">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IDfunc">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IDfunc">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IDfunc">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.IDfunc">Eliminar</a>
             </td>
         </tr>
 }

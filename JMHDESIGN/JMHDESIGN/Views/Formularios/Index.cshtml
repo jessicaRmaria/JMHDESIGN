@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<JMHDESIGN.Models.Formularios>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Formulários";
 }
 
-<h1>Index</h1>
+<h1>Formulários</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
+    @if (User.IsInRole("cliente"))
+    {
+        <a asp-action="Create">Criar novo</a>
+    }
+    </p>
 <table class="table">
     <thead>
         <tr>
@@ -48,11 +51,15 @@
                 @Html.DisplayFor(modelItem => item.Cliente.Email)
             </td>
             }
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IDform">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IDform">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IDform">Delete</a>
-            </td>
+        <td>
+            @if(User.IsInRole("cliente"))
+            {
+            <a asp-action="Edit" asp-route-id="@item.IDform">Editar </a> <a>| </a> 
+            }
+
+            <a asp-action="Details" asp-route-id="@item.IDform">Detalhes</a> |
+            <a asp-action="Delete" asp-route-id="@item.IDform">Eliminar</a>
+        </td>
         </tr>
 }
     </tbody>

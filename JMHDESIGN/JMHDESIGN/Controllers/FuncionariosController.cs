@@ -45,7 +45,32 @@ namespace JMHDESIGN.Controllers
         /// <param name="id">identificador do funcionário a apresentar os detalhes</param>
         /// <returns></returns>
         [Authorize(Roles = "funcionario")]
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id == null)
+            {
+                return LocalRedirect("~/");
+            }
+
+            var funcionario = await _context.Funcionarios
+                .FirstOrDefaultAsync(m => m.IDfunc == id);
+            if (funcionario == null)
+            {
+                return LocalRedirect("~/");
+            }
+
+            return View(funcionario);
+        }
+
+
+        // GET: Funcionarios/Profile/5
+        /// <summary>
+        /// Mostra os dados de um funcionario, acedendo aos dados relativos a ele.
+        /// </summary>
+        /// <param name="id">identificador do funcionário a apresentar os detalhes</param>
+        /// <returns></returns>
+        [Authorize(Roles = "funcionario")]
+        public async Task<IActionResult> Profile(string id)
         {
             if (id == null)
             {
@@ -62,6 +87,7 @@ namespace JMHDESIGN.Controllers
             return View(funcionario);
         }
 
+
         // GET: Funcionarios/Create
         /// <summary>
         /// Cria funcionarios
@@ -70,22 +96,6 @@ namespace JMHDESIGN.Controllers
         {
             return Redirect("~/Identity/Account/Registerf");
         }
-
-        //// POST: Funcionarios/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        //// more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("IDfunc,Nome,Cargo,Contacto,Morada,CodPostal,UserNameId")] Funcionarios funcionarios)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(funcionarios);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(funcionarios);
-        //}
 
         // GET: Funcionarios/Edit/5
         /// <summary>

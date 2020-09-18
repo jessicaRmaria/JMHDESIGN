@@ -71,7 +71,7 @@ body {
 }
 
 .imagens-even, .imagens-odd {
-    width: 350px;
+    width: 300px;
     height: auto;
 }
 .display-4 {
@@ -84,22 +84,32 @@ body {
 .imagens-odd {
     float: left;
 }
+.descricao-even {
+    float: right;
+}
+
+.descricao-odd {
+    float: left;
+}
+
+.linha {
+    border-top:1px solid gray;
+}
+
+.imagem-proj-func {
+    margin-bottom: 15px;
+    overflow: hidden;
+    height: 100px;
+}
 
 
 
-
-
-/*---------------*/
-
-
-
-/*--------------------------------------------------------------
-# Hero Section
---------------------------------------------------------------*/
+/* # Hero Section
+----------------------------------*/
 #hero {
     width: 100%;
     height: 100vh;
-    background: url(../img/fundo.jpg) top center;
+    background: url(../Imagens-site/fundo.jpg) top center;
     background-size: cover;
     position: relative;
 }
@@ -183,6 +193,184 @@ body {
         border: 2px solid #2dc997;
     }
 
+/* # Hero Section - Clientes
+---------------------------------*/
+#hero-cliente {
+    width: 100%;
+    height: 100vh;
+    background: url(../Imagens-site/fundo-cliente.jpg) top center;
+    background-size: cover;
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    #hero-cliente {
+        background-attachment: fixed;
+    }
+}
+
+#hero-cliente:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#hero-cliente .hero-container-cliente {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#hero-cliente h1 {
+    margin: 30px 0 10px 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    #hero-cliente h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+}
+
+#hero-cliente h2 {
+    color: #eee;
+    margin-bottom: 50px;
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    #hero-cliente h2 {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 30px;
+    }
+}
+
+#hero-cliente .btn-get-started {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 8px 28px;
+    border-radius: 50px;
+    transition: 0.5s;
+    margin: 10px;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+    #hero-cliente .btn-get-started:hover {
+        background: #2dc997;
+        border: 2px solid #2dc997;
+    }
+
+/* # Hero Section - Funcionários
+--------------------------------------*/
+#hero-func {
+    width: 100%;
+    height: 100vh;
+    background: url(../Imagens-site/fundo-func.jpg) top center;
+    background-size: cover;
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    #hero-func {
+        background-attachment: fixed;
+    }
+}
+
+#hero-func:before {
+    content: "";
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#hero-func .hero-container-func {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#hero-func h1 {
+    margin: 30px 0 10px 0;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 56px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    #hero-cliente h1 {
+        font-size: 28px;
+        line-height: 36px;
+    }
+}
+
+#hero-func h2 {
+    color: #eee;
+    margin-bottom: 50px;
+    font-size: 24px;
+}
+
+@media (max-width: 768px) {
+    #hero-func h2 {
+        font-size: 18px;
+        line-height: 24px;
+        margin-bottom: 30px;
+    }
+}
+
+#hero-func .btn-get-started {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 8px 28px;
+    border-radius: 50px;
+    transition: 0.5s;
+    margin: 10px;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+    #hero-func .btn-get-started:hover {
+        background: #2dc997;
+        border: 2px solid #2dc997;
+    }
+
 
 
 /* About Us Section
@@ -190,12 +378,6 @@ body {
 #about {
     background: #fff;
     padding: 80px 0;
-}
-
-#about .about-container .background {
-    min-height: 300px;
-    background: url(../img/about-img.jpg) center top no-repeat;
-    margin-bottom: 10px;
 }
 
 #about .about-container .content {
@@ -282,7 +464,7 @@ body {
         #team .member .pic {
             margin-bottom: 15px;
             overflow: hidden;
-            height: 260px;
+            height: 380px;
         }
 
             #team .member .pic img {
@@ -318,8 +500,9 @@ body {
                 margin: 0 2px;
             }
 
-
-
+.row {
+    left: 50%;
+}
 
 #footer {
     background: #343b40;
